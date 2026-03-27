@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>La Mexicana - POS Maestro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --rosa: #ff2d55; --verde: #006847; --negro: #1a1a1a; --gris: #f4f4f9; --oro: #d4af37; --rojo: #d32f2f; --azul: #007bff; --whatsapp: #25d366; --navy: #1a2a6c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--gris); color: var(--negro); padding-bottom: 100px; }
+
+        header { background: var(--verde); color: white; padding: 10px 15px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .tabs-container { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+        .tabs-mesas { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex-grow: 1; }
+        .tab { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .tab.active { background: var(--oro); color: var(--negro); font-weight: 800; }
+        .btn-del-tab { background: rgba(0,0,0,0.2); color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; }
+
+        .cat-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; background: white; border-bottom: 1px solid #eee; }
+        .cat-btn { border: 1px solid #ddd; background: white; padding: 8px 15px; border-radius: 20px; font-size: 0.7rem; white-space: nowrap; font-weight: 600; }
+        .cat-btn.active { background: var(--verde); color: white; }
+        
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .p-card { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        #checkout-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 25px 25px 0 0; transform: translateY(100%); transition: 0.3s; z-index: 300; padding: 20px; box-shadow: 0 -5px 30px rgba(0,0,0,0.2); }
+        #checkout-panel.open { transform: translateY(0); }
+        .item-comanda { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #ddd; }
+        .btn-qty { border: none; width: 32px; height: 32px; border-radius: 8px; font-weight: 800; }
+
+        .calc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px 0; }
+        .btn-money { background: #eee; border: none; padding: 10px 2px; border-radius: 8px; font-weight: 800; font-size: 0.7rem; }
+
+        #modal-opciones, #view-corte { display: none; position: fixed; inset: 0; z-index: 600; }
+        #modal-opciones { background: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px; }
+        
+        /* DISEÑO DE CORTE ACTUALIZADO */
+        #view-corte { background: #fdfdfd; color: var(--negro); padding: 0; flex-direction: column; }
+        .corte-header-sticky { background: var(--navy); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .corte-content { padding: 20px; height: calc(100vh - 80px); overflow-y: auto; }
+        .corte-total-box { background: white; border: 2px solid var(--navy); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .corte-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .corte-sub-box { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+        
+        /* Contenedor con scroll para productos */
+        .desglose-container { background: white; border-radius: 15px; padding: 10px; border: 1px solid #eee; max-height: 300px; overflow-y: auto; margin-bottom: 30px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
+        .desglose-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
+        .desglose-item:last-child { border-bottom: none; }
+
+        .fab { position: fixed; bottom: 20px; right: 20px; background: var(--rosa); color: white; padding: 15px 25px; border-radius: 30px; border: none; font-weight: 800; z-index: 200; box-shadow: 0 5px 15px rgba(255,45,85,0.4); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="font-size: 1.1rem; font-weight: 800;">LA MEXICANA 🌮</h1>
+        <button onclick="abrirCorte()" style="background:var(--oro); border:none; padding:8px 12px; border-radius:8px; font-weight:800; font-size:0.7rem;">📊 CORTE</button>
+    </div>
+    <div class="tabs-container">
+        <div class="tabs-mesas" id="tabs-mesas"></div>
+        <button onclick="agregarNuevaMesa()" style="background:var(--rosa); color:white; border:none; width:35px; height:35px; border-radius:10px; font-weight:800;">+</button>
+    </div>
+</header>
+
+<div class="search-bar" style="padding:10px 15px; background:white; display:flex; gap:8px;">
+    <input type="text" id="input-busqueda" placeholder="Buscar..." onkeyup="filtrarPorNombre()" style="flex-grow:1; padding:12px; border-radius:10px; border:1px solid #eee; background:var(--gris);">
+    <button onclick="crearNuevaSeccion()" style="border:none; background:var(--verde); color:white; border-radius:10px; padding:0 12px;">📂</button>
+    <button onclick="crearProductoAlMenu()" style="border:none; background:var(--verde); color:white; border-radius:10px; padding:0 12px;">🍕+</button>
+</div>
+
+<div class="cat-container" id="cats-list"></div>
+<div class="product-grid" id="menu-grid"></div>
+
+<button class="fab" onclick="toggleCheckout()"><span id="cart-badge">0</span> CUENTA</button>
+
+<div id="checkout-panel">
+    <div style="width: 40px; height: 4px; background: #ccc; margin: 0 auto 15px; border-radius: 2px;" onclick="toggleCheckout()"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="titulo-mesa">Mesa</h3>
+        <button onclick="vaciarMesaActual()" style="background:none; border:none; color:var(--rojo); font-size:0.7rem; font-weight:800;">LIMPIAR</button>
+    </div>
+    
+    <div id="lista-comanda" style="max-height: 180px; overflow-y: auto; margin: 10px 0;"></div>
+    
+    <div style="background: var(--gris); padding: 15px; border-radius: 15px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.3rem;">
+            <span>TOTAL:</span><span id="txt-total">$0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: var(--verde); font-weight: 800; font-size: 1rem; margin-top:5px; border-top: 1px solid #ddd; padding-top:5px;">
+            <span>CAMBIO:</span><span id="txt-cambio">$0</span>
+        </div>
+    </div>
+
+    <div class="calc-grid">
+        <button class="btn-money" onclick="calcularCambio(50)">$50</button>
+        <button class="btn-money" onclick="calcularCambio(100)">$100</button>
+        <button class="btn-money" onclick="calcularCambio(200)">$200</button>
+        <button class="btn-money" onclick="calcularCambio(500)">$500</button>
+        <button class="btn-money" style="background:var(--oro)" onclick="pagoPersonalizado()">OTRO</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+        <button style="background:var(--verde); color:white; border:none; padding:15px; border-radius:12px; font-weight:800;" onclick="finalizarVenta('Efectivo')">💵 EFECTIVO</button>
+        <button style="background:var(--azul); color:white; border:none; padding:15px; border-radius:12px; font-weight:800;" onclick="finalizarVenta('Tarjeta')">💳 TARJETA</button>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button style="background:var(--whatsapp); color:white; border:none; padding:10px; border-radius:10px; font-weight:800; font-size:0.7rem;" onclick="enviarTicketWhatsapp()">📲 TICKET</button>
+        <button style="background:var(--negro); color:white; border:none; padding:10px; border-radius:10px; font-weight:800; font-size:0.7rem;" onclick="enviarMenuWhatsapp()">📖 MENÚ</button>
+    </div>
+</div>
+
+<div id="modal-opciones">
+    <div style="background:white; padding:30px; border-radius:25px; width:90%; max-width:300px; text-align:center;">
+        <h3 id="modal-titulo-prod">Personalizar</h3>
+        <button style="width:100%; padding:15px; margin:10px 0; border:none; border-radius:15px; background:var(--verde); color:white; font-weight:800;" onclick="confirmarOpcion('C/ Verdura')">CON VERDURA 🥬</button>
+        <button style="width:100%; padding:15px; margin:10px 0; border:none; border-radius:15px; background:var(--rosa); color:white; font-weight:800;" onclick="confirmarOpcion('S/ Verdura')">SIN VERDURA 🚫</button>
+        <button style="background:none; border:none; margin-top:10px; color:#666;" onclick="cerrarOpciones()">Cancelar</button>
+    </div>
+</div>
+
+<div id="view-corte">
+    <div class="corte-header-sticky">
+        <h2 style="font-weight: 800; font-size: 1.1rem;">Resumen de Ventas</h2>
+        <button onclick="cerrarCorte()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:8px 15px; border-radius:10px; font-weight:800; font-size: 0.7rem;">VOLVER</button>
+    </div>
+    
+    <div class="corte-content">
+        <div class="corte-total-box">
+            <p style="color: #888; font-size: 0.7rem; margin-bottom: 5px; font-weight: 600; letter-spacing: 1px;">VENTA NETA DEL TURNO</p>
+            <h1 id="corte-total" style="font-size: 2.8rem; color: var(--navy); font-weight: 800;">$0</h1>
+        </div>
+
+        <div class="corte-sub-grid">
+            <div class="corte-sub-box">
+                <p style="font-size: 0.6rem; color: #888; font-weight: 600;">EFECTIVO</p>
+                <h3 id="corte-efectivo" style="color:var(--verde);">$0</h3>
+            </div>
+            <div class="corte-sub-box">
+                <p style="font-size: 0.6rem; color: #888; font-weight: 600;">TARJETA</p>
+                <h3 id="corte-tarjeta" style="color:var(--azul);">$0</h3>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom: 10px; font-size: 0.75rem; font-weight: 800; color: var(--navy);">ARTÍCULOS DESPACHADOS</h4>
+        
+        <div class="desglose-container" id="desglose-lista">
+            </div>
+
+        <button onclick="reiniciarDia()" style="width:100%; background:var(--rojo); color:white; border:none; padding:18px; border-radius:15px; font-weight:800; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(211,47,47,0.3);">
+            CERRAR TURNO Y BORRAR DATOS
+        </button>
+        <p style="text-align:center; font-size:0.6rem; color:#aaa; margin-top:15px;">Esta acción no se puede deshacer.</p>
+    </div>
+</div>
+
+<script>
+    let menuData = JSON.parse(localStorage.getItem('mex_menu')) || {
+        tacos: { i: "🌮", items: [{n: "Pastor", p: 18}, {n: "Bistec", p: 22}] },
+        tortas: { i: "🥪", items: [{n: "Pastor", p: 65}, {n: "Milanesa", p: 70}] },
+        bebidas: { i: "🥤", items: [{n: "Refresco", p: 25}] }
+    };
+    let tickets = JSON.parse(localStorage.getItem('mex_mesas')) || { "Mesa 1": [] };
+    let ventasDia = JSON.parse(localStorage.getItem('mex_ventas')) || [];
+    let mesaActiva = Object.keys(tickets)[0] || "Mesa 1";
+    let catActiva = Object.keys(menuData)[0];
+    let tempP = null;
+
+    function init() { renderTabs(); renderCategorias(); renderMenu(); actualizarInterfaz(); }
+
+    function seleccionarProducto(p) {
+        if (['tacos', 'tortas', 'volcanes'].includes(catActiva.toLowerCase())) {
+            tempP = {...p, cat: catActiva};
+            document.getElementById('modal-titulo-prod').innerText = p.n;
+            document.getElementById('modal-opciones').style.display = 'flex';
+        } else {
+            modificarCantidad(p.n, 1, p.p, catActiva);
+        }
+    }
+
+    function confirmarOpcion(nota) {
+        modificarCantidad(`${tempP.n} (${nota})`, 1, tempP.p, tempP.cat);
+        cerrarOpciones();
+    }
+
+    function modificarCantidad(nombre, cambio, precio = 0, cat = "") {
+        if(!tickets[mesaActiva]) tickets[mesaActiva] = [];
+        const idx = tickets[mesaActiva].findIndex(it => it.n === nombre);
+        if (idx > -1) {
+            tickets[mesaActiva][idx].qty += cambio;
+            if (tickets[mesaActiva][idx].qty <= 0) tickets[mesaActiva].splice(idx, 1);
+        } else if (cambio > 0) {
+            tickets[mesaActiva].push({ n: nombre, p: precio, qty: 1, cat: cat });
+        }
+        actualizarInterfaz(); renderTabs();
+    }
+
+    function renderTabs() {
+        const cont = document.getElementById('tabs-mesas');
+        cont.innerHTML = '';
+        Object.keys(tickets).forEach(m => {
+            const btn = document.createElement('button');
+            btn.className = `tab ${m === mesaActiva ? 'active' : ''}`;
+            btn.innerHTML = `<span>${m}</span><span class="btn-del-tab" onclick="event.stopPropagation(); eliminarMesa('${m}')">✕</span>`;
+            btn.onclick = () => { mesaActiva = m; renderTabs(); actualizarInterfaz(); };
+            cont.appendChild(btn);
+        });
+        localStorage.setItem('mex_mesas', JSON.stringify(tickets));
+    }
+
+    function renderCategorias() {
+        const cont = document.getElementById('cats-list');
+        cont.innerHTML = '';
+        Object.keys(menuData).forEach(c => {
+            const btn = document.createElement('button');
+            btn.className = `cat-btn ${c === catActiva ? 'active' : ''}`;
+            btn.innerText = `${menuData[c].i} ${c.toUpperCase()}`;
+            btn.onclick = () => { catActiva = c; renderCategorias(); renderMenu(); };
+            cont.appendChild(btn);
+        });
+    }
+
+    function renderMenu(f = '') {
+        const grid = document.getElementById('menu-grid');
+        grid.innerHTML = '';
+        const items = f ? Object.values(menuData).flatMap(c => c.items).filter(p => p.n.toLowerCase().includes(f.toLowerCase())) : (menuData[catActiva] ? menuData[catActiva].items : []);
+        items.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'p-card';
+            card.innerHTML = `<h4>${p.n}</h4><p>$${p.p}</p>`;
+            card.onclick = () => seleccionarProducto(p);
+            grid.appendChild(card);
+        });
+    }
+
+    function actualizarInterfaz() {
+        const items = tickets[mesaActiva] || [];
+        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
+        document.getElementById('cart-badge').innerText = items.reduce((a,b)=>a+b.qty,0);
+        document.getElementById('txt-total').innerText = `$${total}`;
+        document.getElementById('titulo-mesa').innerText = `Cuenta: ${mesaActiva}`;
+        
+        let html = "";
+        items.forEach(it => {
+            html += `<div class="item-comanda">
+                <div>
+                    <b>${it.qty}x</b> ${it.n} 
+                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">${it.cat || ''}</div>
+                </div>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span>$${it.p * it.qty}</span>
+                    <button class="btn-qty" style="background:#eee" onclick="modificarCantidad('${it.n}', -1)">-</button>
+                    <button class="btn-qty" style="background:var(--verde); color:white" onclick="modificarCantidad('${it.n}', 1)">+</button>
+                </div>
+            </div>`;
+        });
+        document.getElementById('lista-comanda').innerHTML = html || "<p style='text-align:center; padding:20px; color:#999;'>Mesa vacía</p>";
+    }
+
+    function calcularCambio(m) {
+        const total = parseInt(document.getElementById('txt-total').innerText.replace('$',''));
+        document.getElementById('txt-cambio').innerText = `$${m - total > 0 ? m - total : 0}`;
+    }
+
+    function pagoPersonalizado() {
+        const m = prompt("¿Cuánto recibes?");
+        if(m) calcularCambio(parseInt(m));
+    }
+
+    function finalizarVenta(metodo) {
+        const items = tickets[mesaActiva];
+        if(!items || !items.length) return;
+        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
+        ventasDia.push({ total, metodo, productos: JSON.parse(JSON.stringify(items)) });
+        localStorage.setItem('mex_ventas', JSON.stringify(ventasDia));
+        tickets[mesaActiva] = [];
+        actualizarInterfaz(); renderTabs(); toggleCheckout();
+        alert("Venta guardada con éxito.");
+    }
+
+    function abrirCorte() {
+        document.getElementById('view-corte').style.display = 'flex';
+        let t = 0, e = 0, tar = 0, c = {};
+        ventasDia.forEach(v => {
+            t += v.total;
+            if(v.metodo === 'Efectivo') e += v.total; else tar += v.total;
+            v.productos.forEach(p => {
+                let key = `${p.n} (${p.cat || 'General'})`;
+                c[key] = (c[key] || 0) + p.qty;
+            });
+        });
+        document.getElementById('corte-total').innerText = `$${t}`;
+        document.getElementById('corte-efectivo').innerText = `$${e}`;
+        document.getElementById('corte-tarjeta').innerText = `$${tar}`;
+        
+        let html = Object.keys(c).map(p => `<div class="desglose-item"><span>${p}</span><b>x${c[p]}</b></div>`).join('');
+        document.getElementById('desglose-lista').innerHTML = html || "<p style='text-align:center; color:#999; padding:20px;'>No hay ventas hoy</p>";
+    }
+
+    function enviarTicketWhatsapp() {
+        const items = tickets[mesaActiva];
+        if(!items || !items.length) return;
+        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
+        const num = prompt("Número del cliente (10 dígitos):");
+        if(!num) return;
+        let msg = `*🌮 LA MEXICANA TACOS 🌮*\n---------------------------\n*Ticket:* ${mesaActiva}\n---------------------------\n`;
+        items.forEach(i => msg += `${i.qty}x ${i.n} .... $${i.p * i.qty}\n`);
+        msg += `---------------------------\n*TOTAL: $${total}*\n---------------------------\n_¡Gracias por su preferencia!_ 🇲🇽`;
+        window.open(`https://wa.me/52${num}?text=${encodeURIComponent(msg)}`);
+    }
+
+    function enviarMenuWhatsapp() {
+        const num = prompt("Número para enviar menú:");
+        if(!num) return;
+        let msg = `*📖 MENÚ LA MEXICANA*\n`;
+        Object.keys(menuData).forEach(cat => {
+            msg += `\n*${menuData[cat].i} ${cat.toUpperCase()}*\n`;
+            menuData[cat].items.forEach(p => msg += `- ${p.n}: $${p.p}\n`);
+        });
+        window.open(`https://wa.me/52${num}?text=${encodeURIComponent(msg)}`);
+    }
+
+    function toggleCheckout() { document.getElementById('checkout-panel').classList.toggle('open'); }
+    function cerrarOpciones() { document.getElementById('modal-opciones').style.display = 'none'; }
+    function cerrarCorte() { document.getElementById('view-corte').style.display = 'none'; }
+    function filtrarPorNombre() { renderMenu(document.getElementById('input-busqueda').value); }
+    function agregarNuevaMesa() { const n = prompt("Nombre mesa/cliente:"); if(n) { tickets[n] = []; mesaActiva = n; renderTabs(); actualizarInterfaz(); } }
+    function eliminarMesa(m) { if(confirm("¿Eliminar esta mesa?")) { delete tickets[m]; mesaActiva = Object.keys(tickets)[0] || ""; renderTabs(); actualizarInterfaz(); } }
+    function reiniciarDia() { if(confirm("¿ESTÁS SEGURO? Se borrarán todas las ventas y el desglose del día.")) { ventasDia = []; localStorage.setItem('mex_ventas', '[]'); abrirCorte(); } }
+    function crearNuevaSeccion() { const n = prompt("Nombre de nueva categoría:"); if(n) { menuData[n.toLowerCase()] = {i:"📁", items:[]}; renderCategorias(); } }
+    function crearProductoAlMenu() { const n = prompt("Nombre del producto:"); const p = prompt("Precio:"); if(n && p) { menuData[catActiva].items.push({n, p:parseInt(p)}); renderMenu(); localStorage.setItem('mex_menu', JSON.stringify(menuData)); } }
+    function vaciarMesaActual() { if(confirm("¿Vaciar ticket?")) { tickets[mesaActiva] = []; actualizarInterfaz(); } }
+
+    init();
+</script>
+</body>
+</html>
