@@ -2,459 +2,429 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>La Mexicana - POS Maestro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estée Lauder Companies | Portal de Eventos & Finanzas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --rosa: #ff2d55; --verde: #006847; --verde-claro: #10b981; --negro: #1a1a1a; --gris: #f4f4f9; --oro: #d4af37; --rojo: #d32f2f; --azul: #007bff; --whatsapp: #25d366; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--gris); color: var(--negro); padding-bottom: 100px; }
-
-        header { background: var(--verde); color: white; padding: 10px 15px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .tabs-container { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
-        .tabs-mesas { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex-grow: 1; }
-        .tab { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
-        .tab.active { background: var(--oro); color: var(--negro); font-weight: 800; }
-        .btn-del-tab { background: rgba(0,0,0,0.2); color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; }
-
-        .cat-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; background: white; border-bottom: 1px solid #eee; }
-        .cat-btn { border: 1px solid #ddd; background: white; padding: 8px 15px; border-radius: 20px; font-size: 0.7rem; white-space: nowrap; font-weight: 600; position: relative; }
-        .cat-btn.active { background: var(--verde); color: white; }
-        .btn-del-cat { color: #ff9999; margin-left: 8px; font-weight: 800; border: none; background: none; font-size: 0.8rem; }
-        
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
-        .p-card { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
-        .btn-del-prod { position: absolute; top: 5px; right: 5px; background: #fff1f1; color: var(--rojo); border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.6rem; font-weight: 800; }
-        
-        #checkout-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 25px 25px 0 0; transform: translateY(100%); transition: 0.3s; z-index: 300; padding: 20px; box-shadow: 0 -5px 30px rgba(0,0,0,0.2); }
-        #checkout-panel.open { transform: translateY(0); }
-        .item-comanda { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #ddd; }
-        .btn-qty { border: none; width: 32px; height: 32px; border-radius: 8px; font-weight: 800; }
-
-        .calc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px 0; }
-        .btn-money { background: #eee; border: none; padding: 10px 2px; border-radius: 8px; font-weight: 800; font-size: 0.7rem; }
-
-        #modal-opciones { display: none; position: fixed; inset: 0; z-index: 600; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px; }
-        
-        /* =========================================
-           NUEVO DISEÑO DE CORTE (PROFESIONAL Y COLORIDO)
-           ========================================= */
-        #view-corte { 
-            display: none; position: fixed; inset: 0; z-index: 600;
-            background: #f0f2f5; /* Fondo grisáceo muy suave para contraste */
-            color: var(--negro); overflow-y: auto; 
-            padding-bottom: 40px;
-        }
-        
-        .corte-header-pro { 
-            background: white; padding: 15px 20px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        * {
+            font-family: 'Poppins', sans-serif;
         }
 
-        .corte-container { padding: 20px; max-width: 600px; margin: 0 auto; }
-
-        /* Banner Principal del Total con Degradado */
-        .corte-hero-pro {
-            background: linear-gradient(135deg, #006847 0%, #10b981 100%);
-            color: white; padding: 30px 20px; border-radius: 20px;
-            text-align: center; margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0,104,71,0.2);
+        body {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            min-height: 100vh;
         }
-        .corte-hero-pro p { opacity: 0.8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        .corte-hero-pro h1 { font-size: 3.5rem; font-weight: 800; margin: 5px 0; }
-        
-        /* Grid de Subtotales Coloridos */
-        .corte-sub-grid-pro { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        
-        .corte-sub-box-pro { 
-            background: white; padding: 20px; border-radius: 15px; 
-            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-            border-bottom: 4px solid transparent;
+
+        /* =========================================================
+           ESTILO SLIDING LOGIN / REGISTER (COMO EL VIDEO)
+        ========================================================= */
+        .auth-container {
+            position: relative;
+            width: 880px;
+            max-width: 95vw;
+            height: 560px;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.18);
+            overflow: hidden;
+            transition: all 0.5s ease;
         }
-        
-        .corte-sub-box-pro p { font-size: 0.75rem; color: #666; font-weight: 600; text-transform: uppercase; }
-        .corte-sub-box-pro h3 { font-size: 1.8rem; font-weight: 800; margin-top: 5px; }
 
-        /* Colores específicos para los bordes inferiores */
-        .efectivo-box { border-color: var(--verde-claro); color: var(--verde-claro); }
-        .tarjeta-box { border-color: var(--azul); color: var(--azul); }
-
-        /* Acordeones estilizados */
-        .accordion-pro { background: white; border-radius: 15px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
-        
-        .accordion-btn-pro { 
-            width: 100%; padding: 18px 20px; border: none; 
-            background: white; color: #444;
-            font-weight: 800; text-align: left; 
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.85rem; letter-spacing: 0.5px;
+        .form-box {
+            position: absolute;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e293b;
+            text-align: center;
+            padding: 40px;
+            z-index: 1;
+            transition: 0.6s ease-in-out 0.6s, visibility 0s 0.6s;
         }
-        .accordion-btn-pro:active { background: #fafafa; }
-        .accordion-btn-pro span { color: #999; font-size: 0.7rem; transition: transform 0.3s; }
 
-        .accordion-content-pro { display: none; padding: 0 20px 20px; border-top: 1px solid #f0f0f0; }
-
-        /* Elementos de lista dentro de los acordeones */
-        .desglose-item-pro { 
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; 
+        .auth-container.active .form-box {
+            right: 50%;
         }
-        .desglose-item-pro:last-child { border-bottom: none; }
-        .desglose-item-pro span { color: #555; font-weight: 500; }
-        .desglose-item-pro b { color: var(--negro); font-weight: 800; font-size: 1rem; }
 
-        /* Botón de Finalizar Turno más llamativo */
-        .btn-finalizar-pro {
-            width: 100%; background: linear-gradient(135deg, #d32f2f 0%, #ff5252 100%);
-            color: white; border: none; padding: 18px; border-radius: 15px;
-            font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-            margin-top: 15px; box-shadow: 0 5px 15px rgba(211,47,47,0.3);
-            transition: transform 0.2s;
+        .form-box.register {
+            visibility: hidden;
         }
-        .btn-finalizar-pro:active { transform: scale(0.98); box-shadow: 0 2px 5px rgba(211,47,47,0.3); }
 
-        .fab { position: fixed; bottom: 20px; right: 20px; background: var(--rosa); color: white; padding: 15px 25px; border-radius: 30px; border: none; font-weight: 800; z-index: 200; box-shadow: 0 5px 15px rgba(255,45,85,0.4); }
+        .auth-container.active .form-box.register {
+            visibility: visible;
+        }
+
+        .input-box {
+            position: relative;
+            margin: 18px 0;
+            width: 100%;
+        }
+
+        .input-box input, .input-box select {
+            width: 100%;
+            padding: 13px 45px 13px 18px;
+            background: #f1f5f9;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            outline: none;
+            font-size: 14px;
+            color: #0f172a;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .input-box input:focus, .input-box select:focus {
+            background: #ffffff;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #64748b;
+        }
+
+        .btn-auth {
+            width: 100%;
+            height: 48px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            color: #ffffff;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-auth:active {
+            transform: scale(0.98);
+        }
+
+        /* PANEL CURVO DESLIZANTE (LA MAGIA DEL VIDEO) */
+        .toggle-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .toggle-box::before {
+            content: '';
+            position: absolute;
+            left: -250%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
+            border-radius: 150px;
+            z-index: 2;
+            transition: 1.2s cubic-bezier(0.68, -0.15, 0.265, 1.15);
+        }
+
+        .auth-container.active .toggle-box::before {
+            left: 50%;
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            z-index: 2;
+            transition: 0.6s ease-in-out;
+            pointer-events: auto;
+        }
+
+        .toggle-panel.toggle-left {
+            left: 0;
+            transition-delay: 0.6s;
+        }
+
+        .auth-container.active .toggle-panel.toggle-left {
+            left: -50%;
+            transition-delay: 0.2s;
+        }
+
+        .toggle-panel.toggle-right {
+            right: -50%;
+            transition-delay: 0.2s;
+        }
+
+        .auth-container.active .toggle-panel.toggle-right {
+            right: 0;
+            transition-delay: 0.6s;
+        }
+
+        .btn-outline-auth {
+            width: 170px;
+            height: 46px;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 14px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-auth:hover {
+            background: #ffffff;
+            color: #1e3a8a;
+            transform: scale(1.04);
+        }
+
+        /* =========================================================
+           TRANSICIONES Y DETALLES PARA EL DASHBOARD
+        ========================================================= */
+        .smooth-card {
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .smooth-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .modal-animate {
+            animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .pill-tab {
+            transition: all 0.3s ease;
+        }
+        .pill-tab.active-pill {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+        }
+
+        /* Responsive móvil para el Login */
+        @media screen and (max-width: 768px) {
+            .auth-container { height: 680px; }
+            .form-box { bottom: 0; width: 100%; height: 70%; padding: 25px; }
+            .auth-container.active .form-box { right: 0; bottom: 30%; }
+            .toggle-box::before { left: 0; top: -270%; width: 100%; height: 300%; border-radius: 90px; }
+            .auth-container.active .toggle-box::before { left: 0; top: 70%; }
+            .toggle-panel { width: 100%; height: 30%; padding: 20px; }
+            .toggle-panel.toggle-left { top: 0; }
+            .auth-container.active .toggle-panel.toggle-left { left: 0; top: -30%; }
+            .toggle-panel.toggle-right { right: 0; bottom: -30%; }
+            .auth-container.active .toggle-panel.toggle-right { bottom: 0; }
+        }
     </style>
 </head>
-<body>
+<body class="antialiased text-slate-800">
 
-<header>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h1 style="font-size: 1.1rem; font-weight: 800;">LA MEXICANA 🌮</h1>
-        <button onclick="abrirCorte()" style="background:var(--oro); border:none; padding:8px 12px; border-radius:8px; font-weight:800; font-size:0.7rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">📊 CORTE</button>
-    </div>
-    <div class="tabs-container">
-        <div class="tabs-mesas" id="tabs-mesas"></div>
-        <button onclick="agregarNuevaMesa()" style="background:var(--rosa); color:white; border:none; width:35px; height:35px; border-radius:10px; font-weight:800;">+</button>
-    </div>
-</header>
+    <!-- =====================================================================
+         SECCIÓN 1: PANTALLA DE INICIO / REGISTRO CON PANEL CURVO DESLIZANTE
+    ====================================================================== -->
+    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="auth-container" id="authContainer">
+            
+            <!-- FORMULARIO LOGIN -->
+            <div class="form-box login">
+                <form onsubmit="handleLogin(event)" class="w-full max-w-xs">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2">
+                        <i class="fa-solid fa-sparkles"></i> Portal Operativo ELC
+                    </div>
+                    <h1 class="text-3xl font-bold text-slate-900 mb-1">Iniciar Sesión</h1>
+                    <p class="text-xs text-slate-400 mb-5">Acceso a Eventos Fin de Semana & Conciliación</p>
 
-<div class="search-bar" style="padding:10px 15px; background:white; display:flex; gap:8px;">
-    <input type="text" id="input-busqueda" placeholder="Buscar..." onkeyup="filtrarPorNombre()" style="flex-grow:1; padding:12px; border-radius:10px; border:1px solid #eee; background:var(--gris);">
-    <button onclick="crearNuevaSeccion()" style="border:none; background:var(--verde); color:white; border-radius:10px; padding:0 12px;">📂</button>
-    <button onclick="crearProductoAlMenu()" style="border:none; background:var(--verde); color:white; border-radius:10px; padding:0 12px;">🍕+</button>
-</div>
+                    <div class="input-box">
+                        <input type="text" id="loginUser" placeholder="Usuario o Correo corporativo" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" id="loginPass" placeholder="Contraseña" required>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
 
-<div class="cat-container" id="cats-list"></div>
-<div class="product-grid" id="menu-grid"></div>
+                    <div class="flex justify-between items-center text-xs text-slate-500 mb-5">
+                        <label class="flex items-center gap-1.5 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-blue-600"> Recordarme
+                        </label>
+                        <a href="#" onclick="quickDemoLogin()" class="text-blue-600 font-semibold hover:underline">Acceso Rápido Demo</a>
+                    </div>
 
-<button class="fab" onclick="toggleCheckout()"><span id="cart-badge">0</span> CUENTA</button>
+                    <button type="submit" class="btn-auth">Entrar al Sistema</button>
 
-<div id="checkout-panel">
-    <div style="width: 40px; height: 4px; background: #ccc; margin: 0 auto 15px; border-radius: 2px;" onclick="toggleCheckout()"></div>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 id="titulo-mesa">Mesa</h3>
-        <button onclick="vaciarMesaActual()" style="background:none; border:none; color:var(--rojo); font-size:0.7rem; font-weight:800;">LIMPIAR</button>
-    </div>
-    
-    <div id="lista-comanda" style="max-height: 180px; overflow-y: auto; margin: 10px 0;"></div>
-    
-    <div style="background: var(--gris); padding: 15px; border-radius: 15px;">
-        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.3rem;">
-            <span>TOTAL:</span><span id="txt-total">$0</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; color: var(--verde); font-weight: 800; font-size: 1rem; margin-top:5px; border-top: 1px solid #ddd; padding-top:5px;">
-            <span>CAMBIO:</span><span id="txt-cambio">$0</span>
-        </div>
-    </div>
-
-    <div class="calc-grid">
-        <button class="btn-money" onclick="calcularCambio(50)">$50</button>
-        <button class="btn-money" onclick="calcularCambio(100)">$100</button>
-        <button class="btn-money" onclick="calcularCambio(200)">$200</button>
-        <button class="btn-money" onclick="calcularCambio(500)">$500</button>
-        <button class="btn-money" style="background:var(--oro)" onclick="pagoPersonalizado()">OTRO</button>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-        <button style="background:var(--verde); color:white; border:none; padding:15px; border-radius:12px; font-weight:800;" onclick="finalizarVenta('Efectivo')">💵 EFECTIVO</button>
-        <button style="background:var(--azul); color:white; border:none; padding:15px; border-radius:12px; font-weight:800;" onclick="finalizarVenta('Tarjeta')">💳 TARJETA</button>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <button style="background:var(--whatsapp); color:white; border:none; padding:10px; border-radius:10px; font-weight:800; font-size:0.7rem;" onclick="enviarTicketWhatsapp()">📲 TICKET</button>
-        <button style="background:var(--negro); color:white; border:none; padding:10px; border-radius:10px; font-weight:800; font-size:0.7rem;" onclick="enviarMenuWhatsapp()">📖 MENÚ</button>
-    </div>
-</div>
-
-<div id="modal-opciones">
-    <div style="background:white; padding:30px; border-radius:25px; width:90%; max-width:300px; text-align:center;">
-        <h3 id="modal-titulo-prod">Personalizar</h3>
-        <button style="width:100%; padding:15px; margin:10px 0; border:none; border-radius:15px; background:var(--verde); color:white; font-weight:800;" onclick="confirmarOpcion('C/ Verdura')">CON VERDURA 🥬</button>
-        <button style="width:100%; padding:15px; margin:10px 0; border:none; border-radius:15px; background:var(--rosa); color:white; font-weight:800;" onclick="confirmarOpcion('S/ Verdura')">SIN VERDURA 🚫</button>
-        <button style="background:none; border:none; margin-top:10px; color:#666;" onclick="cerrarOpciones()">Cancelar</button>
-    </div>
-</div>
-
-<div id="view-corte">
-    <div class="corte-header-pro">
-        <h2 style="font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">📊 Resumen de Caja</h2>
-        <button onclick="cerrarCorte()" style="background:#eee; border:none; padding:10px 18px; border-radius:12px; font-weight:800; color: #555;">CERRAR</button>
-    </div>
-    
-    <div class="corte-container">
-        <div class="corte-hero-pro">
-            <p>Venta Total Neta</p>
-            <h1 id="corte-total">$0</h1>
-            <p id="corte-fecha-pro" style="font-weight: 600; opacity: 0.7;"></p>
-        </div>
-
-        <div class="corte-sub-grid-pro">
-            <div class="corte-sub-box-pro efectivo-box">
-                <p>💵 Efectivo</p>
-                <h3 id="corte-efectivo">$0</h3>
+                    <p class="text-[11px] text-slate-400 mt-5">Perfiles autorizados</p>
+                    <div class="flex justify-center gap-3 mt-2">
+                        <button type="button" onclick="quickDemoLogin('EJECUTIVO')" title="Entrar como Ejecutivo" class="w-10 h-10 rounded-xl border border-slate-200 hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition">
+                            <i class="fa-solid fa-briefcase text-sm"></i>
+                        </button>
+                        <button type="button" onclick="quickDemoLogin('OPS')" title="Entrar como Eddy / Mariana S." class="w-10 h-10 rounded-xl border border-slate-200 hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition">
+                            <i class="fa-solid fa-money-bill-transfer text-sm"></i>
+                        </button>
+                        <button type="button" onclick="quickDemoLogin('FINANZAS')" title="Entrar como Mariana Marín" class="w-10 h-10 rounded-xl border border-slate-200 hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition">
+                            <i class="fa-brands fa-cc-amex text-sm"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="corte-sub-box-pro tarjeta-box">
-                <p>💳 Tarjeta</p>
-                <h3 id="corte-tarjeta">$0</h3>
+
+            <!-- FORMULARIO REGISTRO DE USUARIO -->
+            <div class="form-box register">
+                <form onsubmit="handleRegister(event)" class="w-full max-w-xs">
+                    <h1 class="text-2xl font-bold text-slate-900 mb-1">Alta de Ejecutivo</h1>
+                    <p class="text-xs text-slate-400 mb-3">Configura tu marca o área operativa</p>
+
+                    <div class="input-box !my-2.5">
+                        <input type="text" id="regName" placeholder="Nombre completo" required>
+                        <i class="fa-solid fa-id-badge"></i>
+                    </div>
+                    <div class="input-box !my-2.5">
+                        <select id="regRole" required>
+                            <option value="EJECUTIVO">Ejecutivo de Marca (13-18)</option>
+                            <option value="OPS">Operaciones / SPEI (Eddy / Mariana S.)</option>
+                            <option value="FINANZAS">Finanzas Admin (Mariana Marín)</option>
+                        </select>
+                    </div>
+                    <div class="input-box !my-2.5">
+                        <select id="regBrand" required>
+                            <option value="ALL">Todas las Marcas (Ops / Finanzas)</option>
+                            <option value="Estée Lauder">Marca: Estée Lauder</option>
+                            <option value="Clinique">Marca: Clinique</option>
+                            <option value="La Mer">Marca: La Mer</option>
+                            <option value="Le Labo">Marca: Le Labo</option>
+                            <option value="Marca 5">Marca 5</option>
+                        </select>
+                    </div>
+                    <div class="input-box !my-2.5">
+                        <input type="password" id="regPass" placeholder="Crea una contraseña" required>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <button type="submit" class="btn-auth mt-2">Registrar y Entrar</button>
+                </form>
             </div>
-        </div>
 
-        <div class="accordion-pro">
-            <button class="accordion-btn-pro" onclick="toggleAcc('acc-prod')">
-                🛍️ PRODUCTOS VENDIDOS <span id="icon-acc-prod">▼</span>
-            </button>
-            <div id="acc-prod" class="accordion-content-pro">
-                <div id="desglose-lista"></div>
-            </div>
-        </div>
-
-        <div class="accordion-pro">
-            <button class="accordion-btn-pro" onclick="toggleAcc('acc-hist')">
-                📑 HISTORIAL DE TICKETS <span id="icon-acc-hist">▼</span>
-            </button>
-            <div id="acc-hist" class="accordion-content-pro">
-                <div id="historial-lista" style="font-family: monospace; font-size: 0.8rem;"></div>
-            </div>
-        </div>
-
-        <button onclick="reiniciarDia()" class="btn-finalizar-pro">
-            🔴 FINALIZAR TURNO / BORRAR TODO
-        </button>
-        
-        <p style="text-align: center; color: #aaa; font-size: 0.65rem; margin-top: 25px; letter-spacing: 1px;">LA MEXICANA POS v1.0</p>
-    </div>
-</div>
-
-<script>
-    // LÓGICA ORIGINAL INTACTA
-    let menuData = JSON.parse(localStorage.getItem('mex_menu')) || {
-        tacos: { i: "🌮", items: [{n: "Pastor", p: 18}, {n: "Bistec", p: 22}] },
-        tortas: { i: "🥪", items: [{n: "Pastor", p: 65}, {n: "Milanesa", p: 70}] },
-        bebidas: { i: "🥤", items: [{n: "Refresco", p: 25}] }
-    };
-    let tickets = JSON.parse(localStorage.getItem('mex_mesas')) || { "Mesa 1": [] };
-    let ventasDia = JSON.parse(localStorage.getItem('mex_ventas')) || [];
-    let mesaActiva = Object.keys(tickets)[0];
-    let catActiva = Object.keys(menuData)[0];
-    let tempP = null;
-
-    function init() { renderTabs(); renderCategorias(); renderMenu(); actualizarInterfaz(); }
-
-    function seleccionarProducto(p) {
-        if (['tacos', 'tortas', 'volcanes'].includes(catActiva.toLowerCase())) {
-            tempP = {...p, cat: catActiva};
-            document.getElementById('modal-titulo-prod').innerText = p.n;
-            document.getElementById('modal-opciones').style.display = 'flex';
-        } else {
-            modificarCantidad(p.n, 1, p.p, catActiva);
-        }
-    }
-
-    function confirmarOpcion(nota) {
-        modificarCantidad(`${tempP.n} (${nota})`, 1, tempP.p, tempP.cat);
-        cerrarOpciones();
-    }
-
-    function modificarCantidad(nombre, cambio, precio = 0, cat = "") {
-        const idx = tickets[mesaActiva].findIndex(it => it.n === nombre);
-        if (idx > -1) {
-            tickets[mesaActiva][idx].qty += cambio;
-            if (tickets[mesaActiva][idx].qty <= 0) tickets[mesaActiva].splice(idx, 1);
-        } else if (cambio > 0) {
-            tickets[mesaActiva].push({ n: nombre, p: precio, qty: 1, cat: cat });
-        }
-        actualizarInterfaz(); renderTabs();
-    }
-
-    function renderTabs() {
-        const cont = document.getElementById('tabs-mesas');
-        cont.innerHTML = '';
-        Object.keys(tickets).forEach(m => {
-            const btn = document.createElement('button');
-            btn.className = `tab ${m === mesaActiva ? 'active' : ''}`;
-            btn.innerHTML = `<span>${m}</span><span class="btn-del-tab" onclick="event.stopPropagation(); eliminarMesa('${m}')">✕</span>`;
-            btn.onclick = () => { mesaActiva = m; renderTabs(); actualizarInterfaz(); };
-            cont.appendChild(btn);
-        });
-        localStorage.setItem('mex_mesas', JSON.stringify(tickets));
-    }
-
-    function renderCategorias() {
-        const cont = document.getElementById('cats-list');
-        cont.innerHTML = '';
-        Object.keys(menuData).forEach(c => {
-            const btn = document.createElement('button');
-            btn.className = `cat-btn ${c === catActiva ? 'active' : ''}`;
-            btn.innerHTML = `${menuData[c].i} ${c.toUpperCase()} <span class="btn-del-cat" onclick="event.stopPropagation(); eliminarCategoria('${c}')">✕</span>`;
-            btn.onclick = () => { catActiva = c; renderCategorias(); renderMenu(); };
-            cont.appendChild(btn);
-        });
-    }
-
-    function renderMenu(f = '') {
-        const grid = document.getElementById('menu-grid');
-        grid.innerHTML = '';
-        const items = f ? Object.values(menuData).flatMap(c => c.items) : menuData[catActiva].items;
-        items.forEach((p, index) => {
-            if(f && !p.n.toLowerCase().includes(f.toLowerCase())) return;
-            const card = document.createElement('div');
-            card.className = 'p-card';
-            card.innerHTML = `<button class="btn-del-prod" onclick="event.stopPropagation(); eliminarProducto(${index})">✕</button><h4>${p.n}</h4><p>$${p.p}</p>`;
-            card.onclick = () => seleccionarProducto(p);
-            grid.appendChild(card);
-        });
-    }
-
-    function actualizarInterfaz() {
-        const items = tickets[mesaActiva] || [];
-        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
-        document.getElementById('cart-badge').innerText = items.reduce((a,b)=>a+b.qty,0);
-        document.getElementById('txt-total').innerText = `$${total}`;
-        document.getElementById('titulo-mesa').innerText = `Ticket: ${mesaActiva}`;
-        document.getElementById('txt-cambio').innerText = `$0`;
-        
-        let html = "";
-        items.forEach(it => {
-            html += `<div class="item-comanda">
-                <div>
-                    <b>${it.qty}x</b> ${it.n} 
-                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">${it.cat || ''}</div>
+            <!-- PANEL CURVO ANIMADO -->
+            <div class="toggle-box">
+                <div class="toggle-panel toggle-left">
+                    <div class="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-2xl font-bold mb-4 border border-white/25 shadow-lg">
+                        ELC
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">¡Hola, Bienvenido!</h2>
+                    <p class="text-xs text-blue-100 mb-6 leading-relaxed max-w-[260px]">
+                        Gestión integral de los 90 eventos semanales, reembolsos SPEI, facturación retailer y cargos AMEX.
+                    </p>
+                    <button type="button" class="btn-outline-auth" id="registerToggleBtn">Registrar Cuenta</button>
                 </div>
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <span>$${it.p * it.qty}</span>
-                    <button class="btn-qty" style="background:#eee" onclick="modificarCantidad('${it.n}', -1)">-</button>
-                    <button class="btn-qty" style="background:var(--verde); color:white" onclick="modificarCantidad('${it.n}', 1)">+</button>
+
+                <div class="toggle-panel toggle-right">
+                    <div class="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-2xl font-bold mb-4 border border-white/25 shadow-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">¡De Vuelta!</h2>
+                    <p class="text-xs text-blue-100 mb-6 leading-relaxed max-w-[260px]">
+                        ¿Ya tienes usuario asignado por marca o finanzas? Ingresa para revisar tus pendientes de la semana.
+                    </p>
+                    <button type="button" class="btn-outline-auth" id="loginToggleBtn">Iniciar Sesión</button>
                 </div>
-            </div>`;
-        });
-        document.getElementById('lista-comanda').innerHTML = html || "<p style='text-align:center; padding:20px; color:#999;'>Vacío</p>";
-    }
+            </div>
+        </div>
+    </div>
 
-    function finalizarVenta(metodo) {
-        const items = tickets[mesaActiva];
-        if(!items || !items.length) return;
-        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
-        const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const fecha = new Date().toLocaleDateString();
+    <!-- =====================================================================
+         SECCIÓN 2: DASHBOARD PRINCIPAL (MISMO LENGUAJE VISUAL CURVO Y FLUIDO)
+    ====================================================================== -->
+    <div id="dashboardScreen" class="hidden min-h-screen bg-slate-100 pb-12">
         
-        ventasDia.push({ total, metodo, hora, fecha, productos: JSON.parse(JSON.stringify(items)) });
-        localStorage.setItem('mex_ventas', JSON.stringify(ventasDia));
-        tickets[mesaActiva] = [];
-        actualizarInterfaz(); renderTabs(); toggleCheckout();
-    }
+        <!-- HEADER CURVO ESTILO SAAS -->
+        <header class="bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white rounded-b-[36px] shadow-xl pb-16 pt-5 px-4 sm:px-8">
+            <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center font-bold text-lg shadow-inner">
+                        ELC
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-base sm:text-lg font-bold tracking-tight">ESTÉE LAUDER COMPANIES</h1>
+                            <span class="text-[10px] bg-blue-500/30 border border-blue-400/40 px-2.5 py-0.5 rounded-full font-medium">Semana W47</span>
+                        </div>
+                        <p class="text-xs text-blue-200">Miércoles / Jueves a Domingo • <span id="activeUserLabel" class="font-semibold text-white">Admin General</span></p>
+                    </div>
+                </div>
 
-    // ABRIR CORTE (Lógica intacta, solo actualiza las nuevas clases)
-    function abrirCorte() {
-        document.getElementById('view-corte').style.display = 'block';
-        document.getElementById('corte-fecha-pro').innerText = new Date().toLocaleDateString();
-        let t = 0, e = 0, tar = 0, c = {};
-        let histHtml = "";
+                <div class="flex items-center gap-3">
+                    <!-- Selector Rápido de Perfil -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl px-3.5 py-2 flex items-center gap-2">
+                        <i class="fa-solid fa-user-gear text-blue-300 text-xs"></i>
+                        <select id="roleSelector" onchange="renderApp()" class="bg-transparent text-xs font-semibold text-white focus:outline-none cursor-pointer">
+                            <option value="ADMIN" class="text-slate-900">Vista Completa (Admin)</option>
+                            <option value="EJECUTIVO" class="text-slate-900">Ejecutivo Marca (Pasos 1, 5, 6)</option>
+                            <option value="OPS" class="text-slate-900">Eddy / Mariana S. (Pasos 2, 3, 4)</option>
+                            <option value="FINANZAS" class="text-slate-900">Mariana Marín - Finanzas (Pasos 7, 8)</option>
+                        </select>
+                    </div>
 
-        ventasDia.forEach(v => {
-            t += v.total;
-            if(v.metodo === 'Efectivo') e += v.total; else tar += v.total;
-            v.productos.forEach(p => {
-                let key = `${p.n} (${p.cat})`;
-                c[key] = (c[key] || 0) + p.qty;
-            });
-            histHtml += `<div class="desglose-item-pro"><span>${v.hora} - ${v.metodo}</span><b>$${v.total}</b></div>`;
-        });
+                    <button onclick="openNewEventModal()" class="bg-white text-blue-950 hover:bg-blue-50 font-semibold text-xs px-4 py-2.5 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-blue-600"></i>
+                        <span>Nuevo Evento</span>
+                    </button>
 
-        document.getElementById('corte-total').innerText = `$${t}`;
-        document.getElementById('corte-efectivo').innerText = `$${e}`;
-        document.getElementById('corte-tarjeta').innerText = `$${tar}`;
-        document.getElementById('historial-lista').innerHTML = histHtml || "Sin ventas";
-        
-        // Uso de clases pro en el desglose
-        let html = Object.keys(c).map(p => `<div class="desglose-item-pro"><span>${p}</span><b>x${c[p]}</b></div>`).join('');
-        document.getElementById('desglose-lista').innerHTML = html || "No hay ventas";
-    }
+                    <button onclick="logout()" title="Cerrar Sesión" class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-red-500/80 flex items-center justify-center transition">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
 
-    function eliminarCategoria(cat) {
-        if(confirm("¿Eliminar categoría?")) {
-            delete menuData[cat];
-            catActiva = Object.keys(menuData)[0];
-            localStorage.setItem('mex_menu', JSON.stringify(menuData));
-            renderCategorias(); renderMenu();
-        }
-    }
+        <!-- TARJETAS KPI FLOTANTES SOBRE EL HEADER CURVO -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-8 -mt-10 space-y-6">
+            <section class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="bg-white p-5 smooth-card shadow-md border border-slate-100">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-medium text-slate-400">Eventos Activos</span>
+                        <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-check"></i></span>
+                    </div>
+                    <h2 id="kpiTotal" class="text-2xl font-bold text-slate-900 mt-2">0</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Capacidad: ~90 / fin de sem.</p>
+                </div>
 
-    function eliminarProducto(idx) {
-        if(confirm("¿Eliminar producto?")) {
-            menuData[catActiva].items.splice(idx, 1);
-            localStorage.setItem('mex_menu', JSON.stringify(menuData));
-            renderMenu();
-        }
-    }
+                <div class="bg-white p-5 smooth-card shadow-md border border-slate-100">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-medium text-orange-500">Reembolso SPEI</span>
+                        <span class="w-8 h-8 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-xs"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                    </div>
+                    <h2 id="kpiSpei" class="text-2xl font-bold text-slate-900 mt-2">0</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Eddy / Mariana S. (P2→P3)</p>
+                </div>
 
-    // Toggle Acordeón con animación de icono
-    function toggleAcc(id) {
-        const el = document.getElementById(id);
-        const icon = document.getElementById('icon-' + id);
-        const isVisible = el.style.display === 'block';
-        
-        el.style.display = isVisible ? 'none' : 'block';
-        icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-    }
-
-    // FUNCIONES ORIGINALES RESTANTES
-    function calcularCambio(m) {
-        const total = parseInt(document.getElementById('txt-total').innerText.replace('$',''));
-        document.getElementById('txt-cambio').innerText = `$${m - total > 0 ? m - total : 0}`;
-    }
-
-    function pagoPersonalizado() {
-        const m = prompt("¿Cuánto recibes?");
-        if(m) calcularCambio(parseInt(m));
-    }
-
-    function enviarTicketWhatsapp() {
-        const items = tickets[mesaActiva];
-        const total = items.reduce((a, b) => a + (b.p * b.qty), 0);
-        const num = prompt("Número del cliente:");
-        if(!num || !items.length) return;
-        let msg = `*🌮 LA MEXICANA TACOS 🌮*\n---------------------------\n*Ticket:* ${mesaActiva}\n---------------------------\n`;
-        items.forEach(i => msg += `${i.qty}x ${i.n} .... $${i.p * i.qty}\n`);
-        msg += `---------------------------\n*TOTAL: $${total}*\n---------------------------\n_¡Vuelva pronto!_ 🇲🇽`;
-        window.open(`https://wa.me/52${num}?text=${encodeURIComponent(msg)}`);
-    }
-
-    function enviarMenuWhatsapp() {
-        const num = prompt("Número:");
-        if(!num) return;
-        let msg = `*📖 MENÚ LA MEXICANA*\n`;
-        Object.keys(menuData).forEach(cat => {
-            msg += `\n*${menuData[cat].i} ${cat.toUpperCase()}*\n`;
-            menuData[cat].items.forEach(p => msg += `- ${p.n}: $${p.p}\n`);
-        });
-        window.open(`https://wa.me/52${num}?text=${encodeURIComponent(msg)}`);
-    }
-
-    function toggleCheckout() { document.getElementById('checkout-panel').classList.toggle('open'); }
-    function cerrarOpciones() { document.getElementById('modal-opciones').style.display = 'none'; }
-    function cerrarCorte() { document.getElementById('view-corte').style.display = 'none'; }
-    function filtrarPorNombre() { renderMenu(document.getElementById('input-busqueda').value); }
-    function agregarNuevaMesa() { const n = prompt("Nombre mesa:"); if(n) { tickets[n] = []; mesaActiva = n; renderTabs(); actualizarInterfaz(); } }
-    function eliminarMesa(m) { if(confirm("¿Eliminar?")) { delete tickets[m]; mesaActiva = Object.keys(tickets)[0] || ""; renderTabs(); actualizarInterfaz(); } }
-    function reiniciarDia() { if(confirm("¿Limpiar todo el día?")) { ventasDia = []; localStorage.setItem('mex_ventas', '[]'); abrirCorte(); } }
-    function crearNuevaSeccion() { const n = prompt("Sección:"); if(n) { menuData[n.toLowerCase()] = {i:"📁", items:[]}; renderCategorias(); } }
-    function crearProductoAlMenu() { const n = prompt("Nombre del producto:"); const p = prompt("Precio:"); if(n && p) { menuData[catActiva].items.push({n, p:parseInt(p)}); renderMenu(); localStorage.setItem('mex_menu', JSON.stringify(menuData)); } }
-    function vaciarMesaActual() { if(confirm("¿Vaciar?")) { tickets[mesaActiva] = []; actualizarInterfaz(); } }
-
-    init();
-</script>
-</body>
-</html>
+                <div class="bg-white p-5 smooth-card shadow-md border border-slate-100">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-medium text-purple-600">Fact. Retailer</span>
+                        <span class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xs"><i class="fa-solid fa-receipt"></i></span>
+                    </div>
+                    <h2 id="kpiRetailer" class="text-2xl font-bold text-slate-900 mt-2">0</h2>
+                    <p class="text-[11px] text
